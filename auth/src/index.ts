@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import cookieSession from 'cookie-session';
 
 import { currentUserRouter } from './routes/current-user';
+import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { errorHandler } from './middleware/error-handler';
 import { NotFoundError } from './errors/not-found';
@@ -20,6 +21,7 @@ app.use(
 )
 
 app.use(currentUserRouter);
+app.use(signinRouter);
 app.use(signupRouter);
 
 app.all('*', async (req, res) => {
