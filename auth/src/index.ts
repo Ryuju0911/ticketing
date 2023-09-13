@@ -6,6 +6,7 @@ import cookieSession from 'cookie-session';
 
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
+import { signoutRotuer } from './routes/signout';
 import { signupRouter } from './routes/signup';
 import { errorHandler } from './middleware/error-handler';
 import { NotFoundError } from './errors/not-found';
@@ -22,6 +23,7 @@ app.use(
 
 app.use(currentUserRouter);
 app.use(signinRouter);
+app.use(signoutRotuer);
 app.use(signupRouter);
 
 app.all('*', async (req, res) => {
