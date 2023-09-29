@@ -16,7 +16,9 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: true,
+    // secure must be false during tests becasue we are making
+    // plain HTTP request when making use of supertest.
+    secure: process.env.NODE_ENV !== 'test',
   })
 )
 
