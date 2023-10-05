@@ -1,4 +1,4 @@
-import axios from 'axios';
+import buildClient from "../api/build-client";
 
 const LandingPage = ({ currentUser }) => {
   console.log(currentUser);
@@ -15,35 +15,11 @@ const LandingPage = ({ currentUser }) => {
 //
 // Executed on the client
 //  * Navigating from one page to another while in the app
-LandingPage.getInitialProps = async ({ req }) => {
-  if (typeof window === 'undefined') {
-    // We are on the server.
-    //
-    // We cannot perform a GET request to '/api/users/currentuser' because
-    // 'getInitialProps' is executed in the Client container.
-    // Instead, we need to determine the domain name of the Auth service,
-    // which hosts the 'currentuser' API.
-    // To achieve this, we send the request to Ingress Nginx once,
-    // allowing it to resolve the routing for us.
-    //
-    // To send requests to Ingress Nginx, we utilize cross-namespace
-    // communication, as our services are located in the 'default' namespace,
-    // while Ingress Nginx resides in the 'ingress-nginx' namespace.
-    const { data } = await axios.get(
-      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
-      {
-        headers: req.headers
-      }
-    );
+LandingPage.getInitialProps = async (context) => {
+  const client = buildClient(context);
+  const { data } = await client.get('/api/users/currentuser');
 
-    return data;
-  } else {
-    // We are on the browser.
-    // Requests can be made with a base URL of ''.
-    const { data } = await axios.get('/api/users/currentuser');
-
-    return data;
-  }
+  return data;
 };
 
 export default LandingPage;
