@@ -14,7 +14,7 @@ beforeAll(async () => {
   // arbitrary string for setup JWT_KEY in test environment.
   process.env.JWT_KEY = 'aihfgau';
 
-  const mongo = await MongoMemoryServer.create();
+  mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri, {});
